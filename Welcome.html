@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Hangman Game</title>
+    <style>
+        body {
+            font-family: Algerian, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: rgb(193, 176, 176);
+        }
+
+        h1 {
+            color: #3e0a13;
+            font-size: 45px; 
+            margin-bottom: 30px; 
+            margin-top: 10px;
+        }
+
+        #playButton {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #334f34;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #bde52d;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(215, 230, 104, 0.1); /* Box shadow added */
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Hangman Game</h1>
+
+
+    <img src="images/yyz.png" alt="Hangman Image" style="width: 700px; height: 400px;"><br>
+
+    <button id="playButton" onclick="redirectToPlayPage()">Play Now</button>
+    
+    <p id="credits">Created by: Hamenjeet, Balpreet, Mehak, Komalpreet, Harsimran , Ahmed</p>
+
+    <script>
+        function redirectToPlayPage() {
+            window.location.href = "PlayerSelect.html";
+        }
+    </script>
+
+</body>
+</html>

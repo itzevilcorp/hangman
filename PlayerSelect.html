@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game - Player Select</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="player-select">
+        <h1>Hangman Game</h1>
+
+        <!-- Add this section to display the current score -->
+        <div id="currentPlayerScore">
+            <h2>Current Score:</h2>
+            <span id="scoreDisplay"></span>
+        </div>
+
+        <div id="existingPlayers">
+            <h2>Existing Players:</h2>
+            <ul id="playersList"></ul>
+        </div>
+
+        <form id="playerForm">
+            <label for="newPlayerName">Create New Player:</label>
+            <input type="text" id="newPlayerName" required>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Display existing players and their scores
+            const playersList = document.getElementById('playersList');
+            const currentPlayerScore = document.getElementById('scoreDisplay');
+            
+            updatePlayersList(); // Call the function to update players list
+
+            // Form submission to create a new player
+            document.getElementById('playerForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const newPlayerName = document.getElementById('newPlayerName').value;
+                createPlayer(newPlayerName);
+                selectPlayer(newPlayerName);
+                updatePlayersList(); // Call the function to update players list
+            });
+
+            // Make existing players clickable
+            playersList.addEventListener('click', function (event) {
+                const button = event.target.closest('.player-button');
+                if (button) {
+                    const playerName = button.getAttribute('data-player');
+                    selectPlayer(playerName);
+                }
+            });
+        });
+
+        function createPlayer(playerName) {
+            const existingPlayers = JSON.parse(localStorage.getItem('players')) || [];
+            existingPlayers.push(playerName);
+            localStorage.setItem('players', JSON.stringify(existingPlayers));
+            // Initialize the session score for the new player
+            sessionStorage.setItem(`${playerName}_score`, 0);
+        }
+
+        function selectPlayer(playerName) {
+            localStorage.setItem('selectedPlayer', playerName);
+            // Update the current score display
+            const playerScore = sessionStorage.getItem(`${playerName}_score`) || 0;
+            document.getElementById('scoreDisplay').textContent = `Score: ${playerScore}`;
+            window.location.href = 'index.html'; // Redirect to the game
+        }
+
+        function updatePlayersList() {
+            const playersList = document.getElementById('playersList');
+            playersList.innerHTML = ''; // Clear the existing list
+
+            const existingPlayers = JSON.parse(localStorage.getItem('players')) || [];
+            existingPlayers.forEach(player => {
+                const listItem = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = player;
+                button.classList.add('player-button'); // Add a class for styling
+                button.setAttribute('data-player', player); // Set data attribute for player name
+                listItem.appendChild(button);
+
+                // Display player score
+                const playerScore = sessionStorage.getItem(`${player}_score`) || 0;
+                const scoreSpan = document.createElement('span');
+                scoreSpan.textContent = `Score: ${playerScore}`;
+                listItem.appendChild(scoreSpan);
+
+                playersList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
